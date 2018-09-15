@@ -1,11 +1,3 @@
-/*
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-*/
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,6 +10,7 @@ var index = require('./routes/index');
 //var users = require('./routes/users');
 var userRouter = require('./routes/userRouter');
 var contactRouter = require('./routes/contactRouter');
+var buttonRouter = require('./routes/buttonRouter');
 
 var mongoose = require('mongoose');
 var url = 'mongodb://localhost:27017/sensor-perigo'; mongoose.connect(url);
@@ -69,6 +62,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/', users); //agora fica com / apenas porque quero autenticar antes de qualquer coisa
 app.use('/users', userRouter);
 app.use('/contacts', contactRouter);
+app.use('/buttons', buttonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

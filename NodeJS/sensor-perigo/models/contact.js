@@ -13,3 +13,20 @@ var contactSchema = new Schema({
 
 var Contacts = mongoose.model('Contact', contactSchema);
 module.exports = Contacts;
+
+/*
+
+{
+	"emailContactOwner": "erika@gmail.com",
+	"isUser": true,
+	"emailContact": "danielle@gmail.com"
+}
+
+{
+	"emailContactOwner": "erika@gmail.com",
+	"isUser": false,
+	"name": "Luciana",
+	"cellPhone": "081987878787"
+}
+
+*/
