@@ -7,7 +7,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-//var users = require('./routes/users');
+var authRouter = require('./routes/authRouter');
 var userRouter = require('./routes/userRouter');
 var contactRouter = require('./routes/contactRouter');
 var buttonRouter = require('./routes/buttonRouter');
@@ -21,7 +21,9 @@ db.once('open', function () {
   console.log('Conectado corretamente com o servidor');
 });
 
+
 /*
+
 //Criando método de autenticação
 function auth (req, res, next) {
   console.log(req.headers);
@@ -34,15 +36,17 @@ function auth (req, res, next) {
   }
 
   var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
-  var user = auth[0];
-  var pass = auth[1];
-  if(user == 'admin' && pass =='password') {
+  var UUID = auth[0];
+  var token = auth[1];
+  if(UUID == '81855be9-3c51-4746-98cd-0dffaacd0000'
+                && token =='6c9deba3f1fac2df20e3a6284469d2dbf502c5eb') {
     next(); //autorizado
   } else {
-    var err = new Error('Login ou senha errados! Saia daqui!!!!');
+    var err = new Error('UUID ou token errados! Saia daqui!!!!');
     next(err);
   }
 }
+
 */
 
 var app = express();
@@ -59,7 +63,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', users); //agora fica com / apenas porque quero autenticar antes de qualquer coisa
+//app.use('/', authRouter); //agora fica com / apenas porque quero autenticar antes de qualquer coisa
 app.use('/users', userRouter);
 app.use('/contacts', contactRouter);
 app.use('/buttons', buttonRouter);
@@ -83,48 +87,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-
-/*  //versão original que foi criada junto com o projeto
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
-*/
