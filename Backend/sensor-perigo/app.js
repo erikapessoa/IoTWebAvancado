@@ -6,8 +6,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 //var index = require('./routes/index');
-var testRouter = require('./routes/test');
-var authRouter = require('./routes/authRouter');
+//var authRouter = require('./routes/authRouter');
+//var knotRouter = require('./routes/knotRouter');
 var userRouter = require('./routes/userRouter');
 var contactRouter = require('./routes/contactRouter');
 var buttonRouter = require('./routes/buttonRouter');
@@ -65,7 +65,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', authRouter); //agora fica com / apenas porque quero autenticar antes de qualquer coisa
 //app.use('/index', index);
-app.use('/test', testRouter);
 app.use('/users', userRouter);
 app.use('/contacts', contactRouter);
 app.use('/buttons', buttonRouter);

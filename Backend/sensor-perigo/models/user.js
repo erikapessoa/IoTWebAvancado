@@ -29,6 +29,8 @@ var userSchema = new Schema({
   sex: { type: String, required: true },
   nationality: {type: String, required: true },
   maritalStatus: {type: String, required: true },
+  uuid: {type: String, required: true },
+  token: {type: String, required: true },
   address: addressSchema,
   cellPhone: cellPhoneSchema
   }, { timestamps: true }
