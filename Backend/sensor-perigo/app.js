@@ -4,26 +4,57 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+const knotCloud = require('knot-cloud'); //https://github.com/CESARBR/knot-lib-node
 
-//var index = require('./routes/index');
-//var authRouter = require('./routes/authRouter');
-//var knotRouter = require('./routes/knotRouter');
+
+var index = require('./routes/index');
+var authRouter = require('./routes/authRouter');
 var userRouter = require('./routes/userRouter');
 var contactRouter = require('./routes/contactRouter');
 var buttonRouter = require('./routes/buttonRouter');
 
-var mongoose = require('mongoose');
+const cloud_url = 'http://knot.local'; //'http://knot-test.cesar.org.br'; //'192.168.0.102'
+//const cloud_url = 'http://192.168.0.32';
+const cloud_port = 3000;
+const user_uuid = '6e1e4a87-b9d5-4960-81bd-347d33f50000';
+const user_token = '713cc855cc6a21fac2a32f38a30f0888e1c3e05a';
+const cloud = new knotCloud(cloud_url, cloud_port, user_uuid, user_token);
+
+
 var url = 'mongodb://localhost:27017/sensor-perigo'; mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'erro de conexão: '));
 db.once('open', function () {
   //estamos conectados
-  console.log('Conectado corretamente com o servidor');
+  console.log('Conectado corretamente com o MONGODB');
 });
 
+async function main() {
+  //Simulando a ativação do botão
+
+ try {
+   console.log("Entrei no main");
+   await cloud.connect();
+   console.log("conectei a Cloud");
+   console.log (await cloud.getDevices());
+
+   await cloud.subscribe('71a528376e57080e');
+
+   cloud.on((thing) => {
+     console.log(thing['data']['value'])
+     if(thing['data']['value'] == true){
+       console.log('Botão clicado!!!')
+     }
+   });
+   } catch (err) {
+     console.error(err);
+   }
+}
+
+main();
 
 /*
-
 //Criando método de autenticação
 function auth (req, res, next) {
   console.log(req.headers);
@@ -36,24 +67,23 @@ function auth (req, res, next) {
   }
 
   var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
-  var UUID = auth[0];
-  var token = auth[1];
-  if(UUID == '81855be9-3c51-4746-98cd-0dffaacd0000'
-                && token =='6c9deba3f1fac2df20e3a6284469d2dbf502c5eb') {
+  var user = auth[0];
+  var pass = auth[1];
+  if(user == 'admin' && pass =='password') {
     next(); //autorizado
   } else {
-    var err = new Error('UUID ou token errados! Saia daqui!!!!');
+    var err = new Error('Login ou senha errados! Saia daqui!!!!');
     next(err);
   }
-}
 
+}
 */
 
 var app = express();
-
 //autenticação
 //app.use(auth);
 
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -64,7 +94,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', authRouter); //agora fica com / apenas porque quero autenticar antes de qualquer coisa
-//app.use('/index', index);
+app.use('/', index);
 app.use('/users', userRouter);
 app.use('/contacts', contactRouter);
 app.use('/buttons', buttonRouter);

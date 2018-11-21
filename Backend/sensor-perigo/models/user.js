@@ -52,6 +52,8 @@ module.exports = Users;
   "sex": "F",
   "nationality": "brasileira",
   "maritalStatus":"solteira",
+  "uuid":"81855be9-3c51-4746-98cd-0dffaacd0000",
+  "token": "6c9deba3f1fac2df20e3a6284469d2dbf502c5eb",
   "address":
 		{
   	       "publicPlace": "lalala",
