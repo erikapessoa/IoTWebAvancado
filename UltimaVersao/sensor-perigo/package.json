@@ -1,0 +1,31 @@
+{
+  "name": "sensor-perigo",
+  "version": "0.0.1",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "latest",
+    "body-parser": "latest",
+    "connect-flash": "^0.1.1",
+    "constantinople": "latest",
+    "cookie-parser": "latest",
+    "debug": "latest",
+    "ejs": "latest",
+    "express": "^4.16.4",
+    "express-session": "latest",
+    "http-errors": "^1.7.1",
+    "jade": "latest",
+    "jstransformer": "latest",
+    "knot-cloud": "latest",
+    "mongodb": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "pug": "latest",
+    "serve-favicon": "latest"
+  }
+}

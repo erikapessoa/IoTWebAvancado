@@ -1,0 +1,39 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Sensor de Perigo</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class="page-header text-center">
+		<h1><span class="fa fa-anchor"></span> Sensor de Perigo</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Sair</a>
+	</div>
+
+	<div class="row">
+		<form action="/button" method="post">
+			<div class="col-sm-6">
+				<div class="well">
+					<h3><span class="fa fa-user"></span> Informações</h3>
+						<p>
+							<strong>E-mail</strong>: <%= user.local.email %><br>
+							<br>
+							Para acessar as informormações do seu dispositivo, clique no botão abaixo
+						</p>
+						<input type="hidden" name="email" value= <%= user.local.email %> >
+						<button type="submit" class="btn btn-warning btn-lg">Acessar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>
+</body>
+</html>
